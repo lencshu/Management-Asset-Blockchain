@@ -124,7 +124,7 @@ class Eth(Coin):
 
     async def getValidBlockTxUnit(self, iBlock, tx_hash_all, token_addrs, tokensAll):
         listReturn = []
-        print(f"check No.{self.block_num_chain_recent - iBlock}: {iBlock} of {self.block_num_chain_recent}")
+        # print(f"check No.{self.block_num_chain_recent - iBlock}: {iBlock} of {self.block_num_chain_recent}")
         # self.log.info(self.tableName, f"{self.tableName}.{sys._getframe().f_code.co_name}", f"=== block to check: {self.block_num_chain_recent - iBlock}")
         async with sem_infura:
             infosBlock = await super(Eth, self).rpcWallet("eth_getBlockByNumber", [hex(iBlock), True], "ETH")
