@@ -4,3 +4,4 @@ node_modules
 yarn.lock
 backend/_lib/config.py
 package-lock.json
+log.db
