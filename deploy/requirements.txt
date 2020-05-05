@@ -1,0 +1,7 @@
+aiohttp
+aiomysql
+fastapi[all]
+uvicorn
+aiosqlite
+aiosmtplib
+aiofiles

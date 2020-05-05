@@ -1,0 +1,54 @@
+from _lib import *
+from databases import Database
+
+# from multiprocessing.queues import Queue
+
+
+class Sql(Process):
+    def __init__(self, lQueue):
+        self.lQueue = lQueue
+        super(Sql, self).__init__(name="Sql")
+        self.database = Database("sqlite://./_res/log.db")
+        # Queue.__init__(self,maxsize=maxsize,ctx=get_context())
+
+    async def main(self):
+        try:
+            await self.database.connect()
+        except AssertionError as e:
+            print(e)
+        await self.tablaInit()
+        while 1:
+            # asyncio.sleep(0.1)
+            elements = self.lQueue.get(True)
+            print(elements)
+            await self.putLog(elements)
+        # await self.tablaLog()
+
+    def run(self):
+        loop = asyncio.get_event_loop()
+        # asyncio.ensure_future(self.main())
+        # loop.run_forever()
+        loop.run_until_complete(self.main())
+
+    async def tablaInit(self):
+        for tableName in ["Coin", "Eth", "BTC", "USDT"]:
+            query = f"CREATE TABLE {tableName} (id INTEGER PRIMARY KEY,type TEXT,func TEXT, data TEXT, timestamp REAL)"
+            try:
+                await self.database.execute(query=query)
+            except Exception as e:
+                print(f"{tableName} already exists")
+
+    async def putLog(self, elements):
+        tablaName,typeMsg, funcName, logData, timestamp = elements
+        # try:
+        #     await self.database.connect()
+        # except AssertionError as e:
+        #     print(e)
+        query = f"INSERT INTO {tablaName}(type, func, data, timestamp) VALUES (:type, :func, :data, :timestamp)"
+        values = [{"type":typeMsg,"func":funcName, "data": logData, "timestamp": timestamp}]
+        await self.database.execute_many(query=query, values=values) 
+
+    async def getLog(self, cmdSql):
+        # await self.database.connect()
+        rows = await self.database.fetch_all(query=cmdSql)
+        return rows

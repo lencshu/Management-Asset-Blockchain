@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+    sereform:
+        container_name: async-sereform
+        build: ./deploy/
+        restart: always
+        stdin_open: true
+        tty: true
+        ports:
+            - "8081:80"
+        volumes: 
+            - ./backend:/app
+        # command: 
+        #     - "uvicorn test:app --host 0.0.0.0 --port 80 --reload"
+    

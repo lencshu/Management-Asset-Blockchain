@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "C:\\Tools\\Python38\\python.exe",
+    "git.ignoreLimitWarning": true,
+    "python.envFile": "$${workspaceFolder}/.env"
+}

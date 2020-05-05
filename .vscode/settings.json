@@ -1,0 +1,7 @@
+{
+  "python.pythonPath": "C:\\Tools\\Python38\\python.exe",
+  "git.ignoreLimitWarning": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+}
